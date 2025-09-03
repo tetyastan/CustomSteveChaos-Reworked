@@ -19,6 +19,7 @@ messages:
      cooldown: "Идет откат"
      arenaAlreadyCreated: "Арена уже существует"
      duelAlreadyCreated: "Арена уже существует"
+     menuNoLast: "У Вас нет прошлого меню"
   success:
      arenaCreated: "Арена успешно создана"
      locChanged: "Локация успешно изменена"
@@ -51,6 +52,8 @@ messages:
      waveStarted: "Волна %wave% началась!"
      heartsLose: "Вы потеряли сердца, так как проиграли дуэль!"
      duelLoser: "Вы сильно отстаёте от других, поэтому мы выдали Вам Предметы Проигравшего."
+     menuClosed: "Меню закрыто! Вы можете открыть его снова, используя команду /l."
+     menuReopened: "Меню открыто заново!"
      helpGame:
      - "&3Команды:"
      - "/game start - &eначать игру"
@@ -160,7 +163,7 @@ perks:
       - "+20% валюты с выигранных ставок"
 
 scoreboard:
-   name: ""
+   name: "Custom Steve Chaos"
    lines:
    - ""
    - ""

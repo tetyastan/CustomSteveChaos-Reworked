@@ -25,10 +25,10 @@ public class RatesMenu extends Menu {
 		this.from = from;
 		
 		inv.setItem(0, ItemsUtil.generateItem(Material.BIRCH_SIGN, Main.getInstance().getLanguage("menus.rates.back")));
-		inv.setItem(2, ItemsUtil.generateItem(Material.BLACK_STAINED_GLASS_PANE, (byte)5, "+50"));
-		inv.setItem(3, ItemsUtil.generateItem(Material.BLACK_STAINED_GLASS_PANE, (byte)5, "+100"));
-		inv.setItem(5, ItemsUtil.generateItem(Material.BLACK_STAINED_GLASS_PANE, (byte)5, "+200"));
-		inv.setItem(6, ItemsUtil.generateItem(Material.BLACK_STAINED_GLASS_PANE, (byte)5, "+500"));
+		inv.setItem(2, ItemsUtil.generateItem(Material.LIME_STAINED_GLASS_PANE, (byte)5, "+50"));
+		inv.setItem(3, ItemsUtil.generateItem(Material.LIME_STAINED_GLASS_PANE, (byte)5, "+100"));
+		inv.setItem(5, ItemsUtil.generateItem(Material.LIME_STAINED_GLASS_PANE, (byte)5, "+200"));
+		inv.setItem(6, ItemsUtil.generateItem(Material.LIME_STAINED_GLASS_PANE, (byte)5, "+500"));
 		inv.setItem(13, ItemsUtil.generateItem(Material.GLOWSTONE_DUST, Main.getInstance().getLanguage("menus.rates.costRate").replace("%money%", duel.getRate(p) + "")));
 		
 	}

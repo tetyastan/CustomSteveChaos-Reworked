@@ -13,10 +13,10 @@ import java.util.*;
 public class SelectLoserItemMenu extends Menu {
 
 	private final HashMap<Integer, ItemStack> items = new HashMap<>();
-	private boolean selected = false;
 
 	public SelectLoserItemMenu() {
 		super(Main.getInstance().getLanguage("menus.selectItem"), 27, true);
+		this.saveOnClose = true;
 		populateItems();
 	}
 
@@ -36,20 +36,10 @@ public class SelectLoserItemMenu extends Menu {
 		if (item != null) {
 			player.getInventory().addItem(item);
 			Chat.SUCCESS.send(player, Main.getInstance().getLanguage("messages.success.itemSelected"));
-			selected = true;
-			player.closeInventory();
+			Menu.clearLastMenu(player);
+			close(player);
 		}
 
 		return true;
-	}
-
-	@Override
-	public void onClose(Player player) {
-		if (selected) return;
-
-		List<ItemStack> list = new ArrayList<>(items.values());
-		ItemStack item = list.get(new Random().nextInt(list.size()));
-		player.getInventory().addItem(item);
-		Chat.SUCCESS.send(player, Main.getInstance().getLanguage("messages.success.itemSelected"));
 	}
 }

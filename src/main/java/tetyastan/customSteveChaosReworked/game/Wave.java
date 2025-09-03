@@ -41,8 +41,6 @@ public class Wave implements Listener {
 				
 				Duel.getInstance().newDuel();
 
-				Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.readyForItem"));
-
 				nextWave();
 				Chat.SUCCESS.sendAll(Main.getInstance().getLanguage("messages.success.waveEnded"));
 				
@@ -113,6 +111,8 @@ public class Wave implements Listener {
 		if (!e.getCustomPlayer().equals(loser)) {
 			e.getCustomPlayer().addMaxHealth(2);
 		}
+
+		Chat.INFO.send(_p, Main.getInstance().getLanguage("messages.info.readyForItem"));
 
 		new BukkitRunnable() {
 			@Override

@@ -1,10 +1,6 @@
 package tetyastan.customSteveChaosReworked.players.perks;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
@@ -25,6 +21,7 @@ public class SelectPerkMenu extends Menu {
 	
 	public SelectPerkMenu() {
 		super(Main.getInstance().getLanguage("menus.selectPerk"), 9, true);
+		this.saveOnClose = false;
 		
 		List<Perk> perks = Arrays.asList(Perk.values());
 		Collections.shuffle(perks);
@@ -48,12 +45,11 @@ public class SelectPerkMenu extends Menu {
 			p.setPerk(event.getPerk());
 			
 			Chat.SUCCESS.send(_p, Main.getInstance().getLanguage("messages.success.perkSelected").replace("%perk%", perk.getName()));
-			
-			_p.closeInventory();
+
+			close(_p);
 		}
 		
 	}
-	
 	
 	@Override
 	public boolean onClick(Player _p, ItemStack item, int slot, ClickType click) {
@@ -62,8 +58,16 @@ public class SelectPerkMenu extends Menu {
 		
 		return true;
 	}
-	
+
 	@Override
-	public void onClose(Player _p) {selectPerk(_p, (Perk)perks.values().toArray()[new Random().nextInt(perks.size())]);}
-	
+	public void onClose(Player p) {
+		CustomPlayer cp = Game.getInstance().getPlayer(p.getUniqueId());
+
+		if (cp != null && cp.getPerk() == null && !perks.isEmpty()) {
+			Perk randomPerk = (Perk) perks.values().toArray()[new Random().nextInt(perks.size())];
+			selectPerk(p, randomPerk);
+			Game.getInstance().giveItem(cp);
+		}
+	}
+
 }

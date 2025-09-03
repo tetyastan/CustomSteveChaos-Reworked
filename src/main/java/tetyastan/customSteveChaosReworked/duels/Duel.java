@@ -26,7 +26,6 @@ import tetyastan.customSteveChaosReworked.events.PlayerEndWaveEvent;
 import tetyastan.customSteveChaosReworked.game.Game;
 import tetyastan.customSteveChaosReworked.items.items.BookDamage;
 import tetyastan.customSteveChaosReworked.items.items.LoserBook;
-import tetyastan.customSteveChaosReworked.map.Map;
 import tetyastan.customSteveChaosReworked.players.InfoDuel;
 import tetyastan.customSteveChaosReworked.players.CustomPlayer;
 import tetyastan.customSteveChaosReworked.utils.Chat;
@@ -274,9 +273,13 @@ public class Duel implements Listener {
 	@EventHandler
 	public void playerQuit(PlayerQuitEvent e) {
 		if (!start || !isCreate()) return;
+
 		CustomPlayer p = Game.getInstance().getPlayer(e.getPlayer().getUniqueId());
+		if (p == null) return;
+
 		if (!p.equals(p1) && !p.equals(p2)) return;
-		p.setSpec();
+
+		p.enableSpec();
 		win(p.equals(p1) ? p2 : p1);
 	}
 }

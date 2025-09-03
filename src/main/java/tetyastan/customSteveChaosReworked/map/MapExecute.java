@@ -50,7 +50,6 @@ public class MapExecute extends Command {
 					case "list" -> duelList(player, args);
 					case "setp1" -> duelSetp1(player, args);
 					case "setp2" -> duelSetp2(player, args);
-					case "setview" -> duelSetView(player, args);
 					default -> help(player);
 				}
 			}
@@ -133,20 +132,6 @@ public class MapExecute extends Command {
 	private void help(Player p) {
 		
 		Chat.INFO.send(p, Main.getInstance().getLanguageArray("messages.info.helpMap"));
-		
-	}
-
-	private void duelSetView(Player p, String[] args) {
-		if(args.length < 3) {
-			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notEnoughArgs"));
-			return;
-		} else if(!Main.getInstance().getDuelConfig().contains(args[2])) {
-			Chat.FAIL.send(p, Main.getInstance().getLanguage("messages.fail.notFoundDuel"));
-			return;
-		}
-		
-		Main.getInstance().getDuelConfig().setLView(args[2], p.getLocation());
-		Chat.SUCCESS.send(p, Main.getInstance().getLanguage("messages.success.locChanged"));
 		
 	}
 

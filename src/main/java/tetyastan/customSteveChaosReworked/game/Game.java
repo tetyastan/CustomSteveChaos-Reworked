@@ -85,7 +85,7 @@ public class Game implements Listener {
 			arena.stop();
 		for(CustomPlayer p: players.values()) {
 			Chat.INFO.send(p.getBP(), Main.getInstance().getLanguage("messages.info.gameStopped"));
-			p.setSpec();
+			p.enableSpec();
 		}
 		new BukkitRunnable() {
 			@Override
@@ -133,12 +133,12 @@ public class Game implements Listener {
 			if(!_p.hasPermission("customstevechaos.admin")) {
 				_p.kick();
 				return;
-			} else p.setSpec();
+			} else p.enableSpec();
 		} else if(Map.getInstance().getArenas().size()-1 < players.size()) {
 			if(!_p.hasPermission("customstevechaos.admin")) {
 				_p.kick();
 				return;
-			} else p.setSpec();
+			} else p.enableSpec();
 		}
 		
 		_p.teleport(Map.getInstance().getLobby());

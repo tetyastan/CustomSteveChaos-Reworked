@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import tetyastan.customSteveChaosReworked.Main;
 import tetyastan.customSteveChaosReworked.duels.Duel;
-import tetyastan.customSteveChaosReworked.items.shop.ShopMenu;
 import tetyastan.customSteveChaosReworked.utils.Chat;
 
 public class GameExecute extends Command {
@@ -26,7 +25,6 @@ public class GameExecute extends Command {
 			case "start" -> start(sender);
 			case "stop" -> stop(sender);
 			case "duelprofiles" -> duelProfiles(sender);
-			case "shop" -> shop(sender);
 			default -> help(sender);
 		}
 		return true;
@@ -34,12 +32,6 @@ public class GameExecute extends Command {
 
 	private void help(CommandSender sender) {
 		Chat.INFO.send(sender, Main.getInstance().getLanguageArray("messages.info.helpGame"));
-	}
-
-	private void shop(CommandSender sender) {
-		if (sender instanceof Player player && Game.getInstance().getStatus() == Status.WAITING_WAVE) {
-			new ShopMenu().open(player);
-		}
 	}
 
 	private void duelProfiles(CommandSender sender) {

@@ -17,12 +17,14 @@ import tetyastan.customSteveChaosReworked.arenas.ArenasConfig;
 import tetyastan.customSteveChaosReworked.duels.DuelConfig;
 import tetyastan.customSteveChaosReworked.game.GameExecute;
 import tetyastan.customSteveChaosReworked.game.GameTimer;
+import tetyastan.customSteveChaosReworked.game.ShopExecute;
 import tetyastan.customSteveChaosReworked.listeners.CancelListener;
 import tetyastan.customSteveChaosReworked.listeners.JoinListener;
 import tetyastan.customSteveChaosReworked.listeners.PotionListener;
 import tetyastan.customSteveChaosReworked.map.Map;
 import tetyastan.customSteveChaosReworked.map.MapConfig;
 import tetyastan.customSteveChaosReworked.map.MapExecute;
+import tetyastan.customSteveChaosReworked.players.LastMenuExecute;
 import tetyastan.customSteveChaosReworked.utils.BossBar;
 import tetyastan.customSteveChaosReworked.utils.Config;
 
@@ -71,6 +73,8 @@ public class Main extends JavaPlugin {
 
         this.getServer().getCommandMap().register("game", new GameExecute());
         this.getServer().getCommandMap().register("map", new MapExecute());
+        this.getServer().getCommandMap().register("s", new ShopExecute());
+        this.getServer().getCommandMap().register("l", new LastMenuExecute());
 
         for (Material mat : Material.values()) {
             if (!mat.isItem()) continue;

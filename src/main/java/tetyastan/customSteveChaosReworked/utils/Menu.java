@@ -1,9 +1,6 @@
 package tetyastan.customSteveChaosReworked.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -28,6 +25,13 @@ public class Menu implements Listener {
 	protected Inventory inv;
 	private final boolean autoRemove;
 
+	private static final Map<UUID, Menu> lastMenu = new HashMap<>();
+	public static Menu getLastMenu(Player p) { return lastMenu.get(p.getUniqueId()); }
+	public static void clearLastMenu(Player p) { lastMenu.remove(p.getUniqueId()); }
+
+	protected boolean saveOnClose = true;
+	private boolean suppressSaveOnce = false;
+
 	public Menu(String title, int size, boolean autoRemove) {
 		inv = Bukkit.createInventory(null, size, Component.text(title));
 		this.autoRemove = autoRemove;
@@ -41,19 +45,28 @@ public class Menu implements Listener {
 	}
 
 	public void remove() {
-		List<HumanEntity> viewers = new ArrayList<>(inv.getViewers());
-		for (HumanEntity h : viewers) h.closeInventory();
-
 		InventoryClickEvent.getHandlerList().unregister(this);
 		InventoryDragEvent.getHandlerList().unregister(this);
 		InventoryOpenEvent.getHandlerList().unregister(this);
 		InventoryCloseEvent.getHandlerList().unregister(this);
+
+		List<HumanEntity> viewers = new ArrayList<>(inv.getViewers());
+		for (HumanEntity h : viewers) {
+			if (h instanceof Player p) {
+				p.closeInventory();
+			}
+		}
 	}
 
 	public void open(Player p) {
 		if (p.getOpenInventory().getTopInventory() != inv) {
 			p.openInventory(inv);
 		}
+	}
+
+	protected void close(Player p) {
+		suppressSaveOnce = true;
+		p.closeInventory();
 	}
 
 	@EventHandler
@@ -80,7 +93,21 @@ public class Menu implements Listener {
 	@EventHandler
 	public void close(InventoryCloseEvent e) {
 		if (e.getInventory() == inv) {
-			onClose((Player) e.getPlayer());
+			Player p = (Player) e.getPlayer();
+
+			boolean userInitiated = switch (e.getReason()) {
+				case PLAYER, TELEPORT, DEATH, DISCONNECT -> true;
+				default -> false;
+			};
+
+			if (saveOnClose && userInitiated && !suppressSaveOnce) {
+				lastMenu.put(p.getUniqueId(), this);
+				Chat.INFO.send(p, Main.getInstance().getLanguage("messages.info.menuClosed"));
+			}
+
+			suppressSaveOnce = false;
+
+			onClose(p);
 			if (autoRemove && inv.getViewers().isEmpty()) remove();
 		}
 	}

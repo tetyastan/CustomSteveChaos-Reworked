@@ -52,7 +52,10 @@ public class CancelListener implements Listener {
 	
 	@EventHandler
 	private void cancelDrop(PlayerDropItemEvent e) {
-		e.getItemDrop().remove();
+		if (Game.getInstance().getStatus() == Status.WAVE) {
+			e.getItemDrop().remove();
+		}
+		else e.setCancelled(true);
 	}
 	
 }

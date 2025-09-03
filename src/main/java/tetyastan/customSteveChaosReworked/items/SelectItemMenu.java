@@ -18,10 +18,10 @@ public class SelectItemMenu extends Menu {
 
 	private final HashMap<Integer, ItemStack> items = new HashMap<>();
 	private final HashMap<UUID, Integer> rerollPriceMap = new HashMap<>();
-	private boolean selected = false;
 
 	public SelectItemMenu(Player player) {
-		super(Main.getInstance().getLanguage("menus.selectItem"), 45, true);
+		super(Main.getInstance().getLanguage("menus.selectItem"), 45, false);
+		this.saveOnClose = true;
 		populateItems();
 		addRerollButton(player);
 	}
@@ -53,14 +53,13 @@ public class SelectItemMenu extends Menu {
 
 		if (slot == inv.getSize() - 1) {
 			int currentPrice = rerollPriceMap.getOrDefault(player.getUniqueId(), 300);
-
-			if (!p.withdraw(currentPrice)) return true;
-
+			if (!p.withdraw(currentPrice)) {
+				Chat.FAIL.send(player, Main.getInstance().getLanguage("messages.fail.notEnoughMoney"));
+				return true;
+			}
 			rerollPriceMap.put(player.getUniqueId(), currentPrice + 200);
-
 			populateItems();
 			addRerollButton(player);
-
 			return true;
 		}
 
@@ -68,20 +67,9 @@ public class SelectItemMenu extends Menu {
 		if (item != null) {
 			player.getInventory().addItem(item);
 			Chat.SUCCESS.send(player, Main.getInstance().getLanguage("messages.success.itemSelected"));
-			selected = true;
-			player.closeInventory();
+			Menu.clearLastMenu(player);
+			close(player);
 		}
-
 		return true;
-	}
-
-	@Override
-	public void onClose(Player player) {
-		if (selected) return;
-
-		List<ItemStack> list = new ArrayList<>(items.values());
-		ItemStack item = list.get(new Random().nextInt(list.size()));
-		player.getInventory().addItem(item);
-		Chat.SUCCESS.send(player, Main.getInstance().getLanguage("messages.success.itemSelected"));
 	}
 }

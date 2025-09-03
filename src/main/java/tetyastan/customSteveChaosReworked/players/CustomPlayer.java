@@ -8,6 +8,7 @@ import org.bukkit.GameMode;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.event.Listener;
 import tetyastan.customSteveChaosReworked.Main;
 import tetyastan.customSteveChaosReworked.arenas.Arena;
 import tetyastan.customSteveChaosReworked.players.perks.Perk;
@@ -16,7 +17,7 @@ import tetyastan.customSteveChaosReworked.utils.Chat;
 import org.bukkit.attribute.Attribute;
 
 @Getter
-public class CustomPlayer {
+public class CustomPlayer implements Listener {
 	
 	private final UUID uuid;
 	@Setter
@@ -62,7 +63,7 @@ public class CustomPlayer {
 	
 	public org.bukkit.entity.Player getBP() {return Bukkit.getPlayer(uuid);}
 	public boolean isSpec() {return editor || getBP().getGameMode() == GameMode.SPECTATOR;}
-	public void setSpec() {if(!isSpec()) getBP().setGameMode(GameMode.SPECTATOR);}
+	public void enableSpec() {if(!isSpec()) getBP().setGameMode(GameMode.SPECTATOR);}
 	
 	public boolean isMoney(int money) {return this.money >= money;}
 	public boolean withdraw(int money) {
@@ -87,7 +88,7 @@ public class CustomPlayer {
 		
 		if(--lives < 1) {
 			
-			setSpec();
+			enableSpec();
 			Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.playerLose").replace("%player%", getBP().getName()));
 			
 		} else Chat.INFO.sendAll(Main.getInstance().getLanguage("messages.info.playerLostLive").replace("%player%", getBP().getName()).replace("%lives%", lives + ""));
