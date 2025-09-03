@@ -1,9 +1,0 @@
-name: CustomSteveChaos
-version: 1.0
-main: ru.dseymo.customstevechaos.Main
-author: Dseymo
-commands:
-   game:
-      description: ""
-   map:
-      description: ""

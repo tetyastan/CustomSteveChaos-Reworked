@@ -1,0 +1,13 @@
+name: CustomSteveChaosReworked
+version: '1.0'
+main: tetyastan.customSteveChaosReworked.Main
+api-version: '1.21'
+load: STARTUP
+
+commands:
+  game:
+    description: Game command
+    usage: /<command>
+  map:
+    description: Map command
+    usage: /<command>
