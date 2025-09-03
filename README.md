@@ -1,17 +1,7 @@
-# CustomSteveChaos 1.0
-Аркадная мини игра для майнкрафт. Убивай мобов, сражайся на дуэлях и прокачивайся! / Arcade mini game for minecraft. Kill mobs, fight duels and upgrade!
+# CustomSteveChaos Reworked
 
 # ENG
-The idea for the mode was taken from the Cristalix server.
-## Version Minecraft
-#### 1.8.8
-## Update 1.0
-1. Bugs fixed.
-
-## Compile
-1. Download the source code and upload it to Eclipse for example.
-2. Add External JARs: [Server Core](https://getbukkit.org/download/craftbukkit) 1.8.8.
-3. Install [lombok](https://projectlombok.org/).
+### WARN: This project is a fork of another project, which was taken as a basis for further work. We ARE NOT claim to be the official authors of this work! We only supplement it, making it better.
 
 ## Commands
 ### Create arenas
@@ -30,7 +20,6 @@ The idea for the mode was taken from the Cristalix server.
 /map duel list - list duels
 /map duel setp1 <name> - set location for player 1
 /map duel setp2 <name> - set location for player 2
-/map duel setview <name> - set location for viewers
 ```
 
 ### Other
@@ -47,16 +36,7 @@ customstevechaos.admin - perm admin
 For free usage.
 
 # RUS
-Идея режима взята с сервера Cristalix.
-## Версия Майнкрафт
-#### 1.8.8
-## Обновление 1.0
-1. Исправлены баги.
-
-## Компиляция
-1. Скачай исходники и загрузи, например, в Eclipse.
-2. Добавь внешние JARs: [Server Core](https://getbukkit.org/download/craftbukkit) 1.8.8.
-3. Установи [lombok](https://projectlombok.org/).
+### WARN: Этот проект является ответвлением (форком) другого проекта, взятого за основу для дальнейшей работы. Мы НЕ претендуем на авторство этой работы! Мы лишь дополняем её, делая лучше.
 
 ## Команды
 ### Создание арены
@@ -73,7 +53,6 @@ For free usage.
 /map duel create <name> - создать дуэль
 /map duel remove <name> - удалить дуэль
 /map duel list - список дуэлей
-/map duel setview <name> - установить локацию зрителей
 /map duel setp1 <name> - установить локацию игрока 1
 /map duel setp2 <name> - установить локацию игрока 2
 ```
