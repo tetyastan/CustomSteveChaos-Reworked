@@ -22,9 +22,6 @@ public class Items {
 				Material.GOLDEN_SWORD, Material.DIAMOND_SWORD, Material.NETHERITE_SWORD
 		));
 
-		ALLOWED_ITEMS.add(Material.BOW);
-		ALLOWED_ITEMS.add(Material.CROSSBOW);
-
 		for (Material mat : Material.values()) {
 			if (mat.name().endsWith("_HELMET") ||
 					mat.name().endsWith("_CHESTPLATE") ||
@@ -49,7 +46,12 @@ public class Items {
 						&& ench != Enchantment.VANISHING_CURSE
 						&& ench != Enchantment.INFINITY
 						&& ench != Enchantment.KNOCKBACK
-						&& ench != Enchantment.UNBREAKING) {
+						&& ench != Enchantment.UNBREAKING
+						&& ench != Enchantment.AQUA_AFFINITY
+						&& ench != Enchantment.FEATHER_FALLING
+						&& ench != Enchantment.FROST_WALKER
+						&& ench != Enchantment.SOUL_SPEED
+						&& ench != Enchantment.SILK_TOUCH) {
 					list.add(ench);
 				}
 			}
@@ -85,13 +87,6 @@ public class Items {
 
 		possibleEnchants.removeIf(e -> e.equals(Enchantment.THORNS));
 		Collections.shuffle(possibleEnchants, random);
-
-		if (item.getType() == Material.BOW || item.getType() == Material.CROSSBOW) {
-			if (Enchantment.INFINITY.canEnchantItem(item)) {
-				meta.addEnchant(Enchantment.INFINITY, 1, true);
-				enchantCount = Math.max(0, enchantCount - 1);
-			}
-		}
 
 		for (int i = 0; i < Math.min(enchantCount, possibleEnchants.size()); i++) {
 			Enchantment enchant = possibleEnchants.get(i);
