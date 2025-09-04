@@ -18,7 +18,7 @@ import tetyastan.customSteveChaosReworked.Main;
 
 public class ItemsUtil {
 
-	private static String color(String text) {
+	public static String color(String text) {
 		return ChatColor.translateAlternateColorCodes('&', text);
 	}
 

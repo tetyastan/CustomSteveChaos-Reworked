@@ -18,6 +18,9 @@ import tetyastan.customSteveChaosReworked.duels.DuelConfig;
 import tetyastan.customSteveChaosReworked.game.GameExecute;
 import tetyastan.customSteveChaosReworked.game.GameTimer;
 import tetyastan.customSteveChaosReworked.game.ShopExecute;
+import tetyastan.customSteveChaosReworked.items.customenchs.Adrenaline;
+import tetyastan.customSteveChaosReworked.items.customenchs.CustomEnchantListener;
+import tetyastan.customSteveChaosReworked.items.customenchs.CustomEnchantRegistry;
 import tetyastan.customSteveChaosReworked.listeners.CancelListener;
 import tetyastan.customSteveChaosReworked.listeners.JoinListener;
 import tetyastan.customSteveChaosReworked.listeners.PotionListener;
@@ -83,6 +86,9 @@ public class Main extends JavaPlugin {
             } catch (Exception ignored) {}
         }
         getLogger().info("ItemStack preloaded.");
+
+        Bukkit.getPluginManager().registerEvents(new CustomEnchantListener(), this);
+        CustomEnchantRegistry.register(new Adrenaline(this));
 
         timer = new GameTimer();
         timer.runTaskTimer(this, 20, 20);

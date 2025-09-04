@@ -25,9 +25,8 @@ public class ZombieArmor extends Mob {
         equip.setItem(EquipmentSlot.HAND, null);
 		equip.setItem(EquipmentSlot.OFF_HAND, null);
 		equip.setHelmet(ItemsUtil.generateItem(Material.IRON_HELMET, ""));
-		equip.setChestplate(ItemsUtil.generateItem(Material.IRON_CHESTPLATE, ""));
-		equip.setLeggings(ItemsUtil.generateItem(Material.IRON_LEGGINGS, ""));
-		equip.setBoots(ItemsUtil.generateItem(Material.IRON_BOOTS, ""));
+		equip.setChestplate(ItemsUtil.generateItem(Material.LEATHER_CHESTPLATE, ""));
+		equip.setBoots(ItemsUtil.generateItem(Material.LEATHER_BOOTS, ""));
 		
 		return false;
 	}

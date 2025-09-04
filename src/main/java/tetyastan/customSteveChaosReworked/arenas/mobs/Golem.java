@@ -15,7 +15,7 @@ public class Golem extends Mob {
 	@Override
 	public void onHit(EntityDamageByEntityEvent e) {
 		
-		if(Math.random() > 0.4) e.setCancelled(true);
+		if(Math.random() > 0.7) e.setCancelled(true);
 		else e.setDamage(e.getDamage()/2);
 		
 	}

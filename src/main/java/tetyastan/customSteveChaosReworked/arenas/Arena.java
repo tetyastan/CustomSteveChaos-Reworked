@@ -2,7 +2,6 @@ package tetyastan.customSteveChaosReworked.arenas;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
@@ -90,13 +89,13 @@ public class Arena implements Listener {
 				Mobs mob = pack.getMobs()[current];
 				LivingEntity ent = mob.spawn(spawnMob);
 
-				double baseHealth = 2;
-				double health = baseHealth * Math.pow(1.19, wave);
+				double baseHealth = 1.5;
+				double health = baseHealth * Math.pow(1.2, wave);
 				Objects.requireNonNull(ent.getAttribute(Attribute.MAX_HEALTH)).setBaseValue(health);
 				ent.setHealth(health);
 
-				double baseDamage = 1.2;
-				double damage = baseDamage * Math.pow(1.15, wave);
+				double baseDamage = 1.15;
+				double damage = baseDamage * Math.pow(1.2, wave);
 				if (ent.getAttribute(Attribute.ATTACK_DAMAGE) != null) {
 					Objects.requireNonNull(ent.getAttribute(Attribute.ATTACK_DAMAGE)).setBaseValue(damage);
 				}

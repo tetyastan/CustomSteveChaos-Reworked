@@ -1,8 +1,13 @@
 package tetyastan.customSteveChaosReworked.items;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
+import tetyastan.customSteveChaosReworked.items.customenchs.CustomEnchant;
+import tetyastan.customSteveChaosReworked.items.customenchs.CustomEnchantRegistry;
 import tetyastan.customSteveChaosReworked.utils.ItemsUtil;
+import tetyastan.customSteveChaosReworked.utils.MiscUtil;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,24 +18,24 @@ public class Items {
 
 	private static final Random random = new Random();
 
-	private static final List<Material> ALLOWED_ITEMS = new ArrayList<>();
+	private static final List<Material> MATERIAL_TIERS = Arrays.asList(
+			Material.WOODEN_SWORD, Material.STONE_SWORD,
+			Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE,
+			Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS,
+			Material.GOLDEN_SWORD, Material.GOLDEN_HELMET, Material.GOLDEN_CHESTPLATE,
+			Material.GOLDEN_LEGGINGS, Material.GOLDEN_BOOTS,
+
+			Material.IRON_SWORD, Material.IRON_HELMET, Material.IRON_CHESTPLATE,
+			Material.IRON_LEGGINGS, Material.IRON_BOOTS,
+
+			Material.DIAMOND_SWORD, Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
+			Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS,
+
+			Material.NETHERITE_SWORD, Material.NETHERITE_HELMET, Material.NETHERITE_CHESTPLATE,
+			Material.NETHERITE_LEGGINGS, Material.NETHERITE_BOOTS
+	);
+
 	private static final Map<Material, List<Enchantment>> ENCHANT_CACHE = new HashMap<>();
-
-	static {
-		ALLOWED_ITEMS.addAll(Arrays.asList(
-				Material.WOODEN_SWORD, Material.STONE_SWORD, Material.IRON_SWORD,
-				Material.GOLDEN_SWORD, Material.DIAMOND_SWORD, Material.NETHERITE_SWORD
-		));
-
-		for (Material mat : Material.values()) {
-			if (mat.name().endsWith("_HELMET") ||
-					mat.name().endsWith("_CHESTPLATE") ||
-					mat.name().endsWith("_LEGGINGS") ||
-					mat.name().endsWith("_BOOTS")) {
-				ALLOWED_ITEMS.add(mat);
-			}
-		}
-	}
 
 	private static List<Enchantment> getEnchantmentsFor(Material mat) {
 		if (ENCHANT_CACHE.containsKey(mat)) {
@@ -62,13 +67,32 @@ public class Items {
 	}
 
 	public static ItemStack generate(int wave) {
-		Material mat = ALLOWED_ITEMS.get(random.nextInt(ALLOWED_ITEMS.size()));
+		Material mat = getMaterialForWave(wave);
 		ItemStack item = new ItemStack(mat, 1);
 		return generateEnchs(item, wave);
 	}
 
 	public static ItemStack generateLoser(int wave) {
-        return generate(wave + 3);
+		return generate(wave + 3);
+	}
+
+	private static Material getMaterialForWave(int wave) {
+		if (wave < 1) wave = 1;
+		if (wave > 30) wave = 30;
+
+		List<Material> pool = new ArrayList<>();
+
+		if (wave <= 5) {
+			pool.addAll(MATERIAL_TIERS.subList(0, 10));
+		} else if (wave <= 15) {
+			pool.addAll(MATERIAL_TIERS.subList(0, 15));
+		} else if (wave <= 25) {
+			pool.addAll(MATERIAL_TIERS.subList(0, 20));
+		} else {
+			pool.addAll(MATERIAL_TIERS);
+		}
+
+		return pool.get(random.nextInt(pool.size()));
 	}
 
 	public static ItemStack generateEnchs(ItemStack item, int wave) {
@@ -93,6 +117,24 @@ public class Items {
 			int deviation = random.nextInt(deviationRange + 1) - (deviationRange / 2);
 			int level = Math.max(1, baseLevel + deviation);
 			meta.addEnchant(enchant, level, true);
+		}
+
+		List<CustomEnchant> customEnchants = CustomEnchantRegistry.getAll().stream()
+				.filter(e -> e.canApply(item))
+				.toList();
+
+		if (!customEnchants.isEmpty()) {
+			CustomEnchant chosen = customEnchants.get(random.nextInt(customEnchants.size()));
+			int deviation = random.nextInt(deviationRange + 1) - (deviationRange / 2);
+			int level = Math.max(1, baseLevel + deviation);
+
+			List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+            assert lore != null;
+            lore.add(ItemsUtil.color("&7" + chosen.getName() + " " + MiscUtil.toRoman(level) + " (&aCSC&7)"));
+			meta.setLore(lore);
+
+			NamespacedKey key = chosen.getKey();
+			meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, level);
 		}
 
 		item.setItemMeta(meta);
