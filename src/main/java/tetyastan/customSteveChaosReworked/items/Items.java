@@ -123,18 +123,23 @@ public class Items {
 				.filter(e -> e.canApply(item))
 				.toList();
 
-		if (!customEnchants.isEmpty()) {
-			CustomEnchant chosen = customEnchants.get(random.nextInt(customEnchants.size()));
-			int deviation = random.nextInt(deviationRange + 1) - (deviationRange / 2);
-			int level = Math.max(1, baseLevel + deviation);
+		if (!customEnchants.isEmpty() && random.nextInt(100) + 1 > 70) {
+			int customEnchantCount = Math.min(1 + wave / 8, customEnchants.size());
+			List<CustomEnchant> shuffled = new ArrayList<>(customEnchants);
+			Collections.shuffle(shuffled, random);
 
-			List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-            assert lore != null;
-            lore.add(ItemsUtil.color("&7" + chosen.getName() + " " + MiscUtil.toRoman(level) + " (&aCSC&7)"));
-			meta.setLore(lore);
+			for (int i = 0; i < customEnchantCount; i++) {
+				CustomEnchant chosen = shuffled.get(i);
+				int deviation = random.nextInt(deviationRange + 1) - (deviationRange / 2);
+				int level = Math.max(1, baseLevel + deviation);
 
-			NamespacedKey key = chosen.getKey();
-			meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, level);
+				List<String> lore = meta.hasLore() ? new ArrayList<>(Objects.requireNonNull(meta.getLore())) : new ArrayList<>();
+				lore.add(ItemsUtil.color("&7" + chosen.getName() + " " + MiscUtil.toRoman(level) + " (&aCSC&7)"));
+				meta.setLore(lore);
+
+				NamespacedKey key = chosen.getKey();
+				meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, level);
+			}
 		}
 
 		item.setItemMeta(meta);

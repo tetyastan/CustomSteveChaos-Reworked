@@ -26,6 +26,7 @@ import tetyastan.customSteveChaosReworked.events.PlayerEndWaveEvent;
 import tetyastan.customSteveChaosReworked.game.Game;
 import tetyastan.customSteveChaosReworked.items.items.BookDamage;
 import tetyastan.customSteveChaosReworked.items.items.LoserBook;
+import tetyastan.customSteveChaosReworked.map.Map;
 import tetyastan.customSteveChaosReworked.players.InfoDuel;
 import tetyastan.customSteveChaosReworked.players.CustomPlayer;
 import tetyastan.customSteveChaosReworked.utils.Chat;
@@ -249,6 +250,9 @@ public class Duel implements Listener {
 		event = new PlayerEndWaveEvent(lose, Game.getInstance().getWave().getWave(), deposit / 2, true);
 		Bukkit.getPluginManager().callEvent(event);
 		lose.deposit(event.getDeposit());
+
+		p.getBP().teleport(Map.getInstance().getLobby());
+		lose.getBP().teleport(Map.getInstance().getLobby());
 	}
 
 	@EventHandler

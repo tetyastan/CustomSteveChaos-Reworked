@@ -9,7 +9,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -30,7 +29,6 @@ import tetyastan.customSteveChaosReworked.map.Map;
 import tetyastan.customSteveChaosReworked.players.CustomPlayer;
 import tetyastan.customSteveChaosReworked.players.perks.SelectPerkMenu;
 import tetyastan.customSteveChaosReworked.utils.Chat;
-import tetyastan.customSteveChaosReworked.utils.ItemsUtil;
 import tetyastan.customSteveChaosReworked.utils.Menu;
 
 public class Game implements Listener {
@@ -63,13 +61,10 @@ public class Game implements Listener {
 		Collections.shuffle(arenas);
 		int i = 0;
 		for(CustomPlayer p: getNotSpecPlayers()) {
-			
 			SelectPerkMenu menu = new SelectPerkMenu();
 			menu.open(p.getBP());
 			p.setArena(arenas.get(i));
-			p.getBP().getInventory().setItem(17, ItemsUtil.generateItem(Material.ARROW, ""));
 			i++;
-			
 		}
 	}
 	
@@ -87,13 +82,17 @@ public class Game implements Listener {
 			Chat.INFO.send(p.getBP(), Main.getInstance().getLanguage("messages.info.gameStopped"));
 			p.enableSpec();
 		}
+
+		wave.remove();
+		wave = null;
+
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				wave.remove();
-				wave = null;
-
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+				for (CustomPlayer p: players.values()) {
+					p.getBP().kick();
+					status = Status.WAITING_GAME;
+				}
 			}
 		}.runTaskLater(Main.getInstance(), 100);
 	}
@@ -179,7 +178,8 @@ public class Game implements Listener {
 		for (org.bukkit.entity.Player online : Bukkit.getOnlinePlayers()) {
 			online.sendMessage(quitMessage);
 		}
-		
+
+		Main.getInstance().getTimer().getBar().removePlayer(e.getPlayer());
 	}
 	
 }

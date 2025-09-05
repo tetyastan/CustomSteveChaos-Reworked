@@ -45,11 +45,9 @@ public class Adrenaline implements CustomEnchant {
 
         if (attackCount >= 10) return;
 
-        double factor = 1.0 - ((double) attackCount / 10.0);
-        double bonusHealth = level * 2.0 * factor;
-
         if (attacker.getHealth() < baseMaxHealth) {
-            attacker.heal(bonusHealth);
+            double healAmount = 2.0 + (attackCount / 10.0) * 2.0;
+            attacker.setHealth(Math.min(attacker.getHealth() + healAmount, baseMaxHealth));
             return;
         }
 
@@ -61,7 +59,5 @@ public class Adrenaline implements CustomEnchant {
                 attackCount,
                 true, true
         ));
-
-        attacker.heal(bonusHealth);
     }
 }
